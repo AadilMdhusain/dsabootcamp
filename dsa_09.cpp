@@ -60,7 +60,7 @@ void insAtEnd(ListNode *&head, int value) // Insert at End
 }
 void insAtIndex(ListNode *&head, int value, int index) // Insert at given Index
 {
-    if (index < 0 || (int)sizeof(head) < index)
+    if (index < 0 || sizeOf(head) < index)
     {
         printf("This is an Invalid Index. \n");
         // Invalid Index
@@ -148,7 +148,7 @@ void delAtIndex(ListNode *&head, int index) //Deletes a node present at a given 
     }
     else{
         ListNode *temp,*temp1;
-        if (index < 0 || (int)sizeof(head) < index)
+        if (index < 0 || sizeOf(head) < index)
     {
         printf("This is an Invalid Index. \n");
         // Invalid Index
