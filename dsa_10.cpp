@@ -65,7 +65,6 @@ int insAtEnd(ListNode *&head, int value) // Insert at End
 }
 int insAtIndex(ListNode *&head, int value, int index) // Insert at given Index
 {
-    int place;
     if (index < 0 || sizeOf(head) < index)
     {
         // Invalid Index
@@ -77,6 +76,7 @@ int insAtIndex(ListNode *&head, int value, int index) // Insert at given Index
     }
     else
     {
+            int place;
         ListNode *newnode = createNode(value);
         if (head == NULL)
         {
@@ -123,7 +123,6 @@ int delAtBeg(ListNode *&head) // Deletes the node present in the beginning of th
 
 int delAtEnd(ListNode *&head) //Deletes a node present at the end of the linked list
 {
-    int val;
     if(head==NULL)
     {
         return -1;
@@ -133,6 +132,7 @@ int delAtEnd(ListNode *&head) //Deletes a node present at the end of the linked 
         head=NULL;
         return 1;
     }
+    int val;
     val=sizeOf(head);
     ListNode *temp= head;
     ListNode *temp1;
@@ -193,7 +193,7 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.Delete a Node at Beginning\n\t05.Delete a Node at End\n\t06.Delete a Node at given Index\n\t0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.Beginning\n\t05.End\n\t06.given Index\n\t0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -275,7 +275,7 @@ int main()
             }
             default:
             {
-                printf("Invalid choice (choose 0-3)");
+                printf("Invalid choice (choose 0-6)");
             }
             }
         }
