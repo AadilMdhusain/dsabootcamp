@@ -76,7 +76,7 @@ int insAtIndex(ListNode *&head, int value, int index) // Insert at given Index
     }
     else
     {
-            int place;
+        int place;
         ListNode *newnode = createNode(value);
         if (head == NULL)
         {
@@ -147,7 +147,6 @@ int delAtEnd(ListNode *&head) //Deletes a node present at the end of the linked 
 
 int delAtIndex(ListNode *&head, int index) //Deletes a node present at a given index
 {
-    int val=0;
     if(head==NULL)
     {
         return -1;
@@ -160,12 +159,12 @@ int delAtIndex(ListNode *&head, int index) //Deletes a node present at a given i
         return 0;
     }
         else{
-            val=0;
+            int val=0;
             temp=head;
             temp1=head;
             while(temp!=NULL)
             {
-                if((index-1)==val)
+                if((index)==val)
                     break;
                 temp1=temp;
                 val++;
@@ -179,21 +178,77 @@ int delAtIndex(ListNode *&head, int index) //Deletes a node present at a given i
             else{
                 temp1->next=temp->next;
             }
-            return 1;
+            return val;
         }
 
     }
 }
 
+int readValue(ListNode *head, int size, int index)
+{
+    if(head==NULL)
+        return 0;
+    else if(size<index || index<0)
+        return -1;
+        int val=0;
+    ListNode *temp=head;
+    while(temp!=NULL)
+    {
+        if(index==val)
+            return temp->data;
+        val++;
+        temp=temp->next;
+    }
+
+}
+
+int writeValue(ListNode *head,int size, int index, int value)
+{
+    if(head==NULL)
+        return -2;
+    else if(size<index || index<0)
+        return -1;
+    ListNode *temp=head;
+    int val=0;
+    while(temp!=NULL)
+    {
+        if(index==val)
+        {
+            temp->data=value;
+            return value;
+        }
+        temp=temp->next;
+        val++;
+    }
+
+}
+
+int searchValue(ListNode *head,int size, int value)
+{
+    if(head==NULL)
+        return -1;
+    ListNode *temp=head;
+    int val=0;
+    while(temp!=NULL)
+    {
+        if(temp->data==value)
+            return val;
+        temp=temp->next;
+        val++;
+    }
+    return -1;
+}
+
+
 int main()
 {
-    int choice, index, value,value1;
+    int choice, index, value,value1,sizeoflist;
     ListNode *head = NULL;
     while (1)
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.Beginning\n\t05.End\n\t06.given Index\n\t0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -273,9 +328,55 @@ int main()
                 display(head);
                 break;
             }
+            case 7:
+            {
+                printf("Enter the index of the node you want to read : \n");
+                scanf("%d", &index);
+                sizeoflist=sizeOf(head);
+                value=readValue(head,sizeoflist,index);
+                if(value==0)
+                    printf("The list is empty\n");
+                else if(value==-1)
+                    printf("The index is invalid\n");
+                else
+                    printf("The data value of the %dth node is : %d\n",index,value);
+                    display(head);
+                break;
+            }
+            case 8:
+            {
+                printf("Enter the index of the node you want to write a value at: \n");
+                scanf("%d", &index);
+                sizeoflist=sizeOf(head);
+                printf("Enter the value to be written at that index : \n");
+                scanf("%d", &value);
+                value=writeValue(head,sizeoflist,index,value);
+                if(value==-2)
+                    printf("The list is empty\n");
+                else if(value==-1)
+                    printf("The index is invalid\n");
+                else
+                    printf("The new value of the %dth node is : %d \n",index,value);
+                display(head);
+                break;
+
+            }
+            case 9:
+            {
+                printf("Enter the value you want to search in the list : \n");
+                scanf("%d", &value);
+                sizeoflist=sizeOf(head);
+                value=searchValue(head,sizeoflist,value);
+                if(value==-1)
+                    printf("The list is empty\n");
+                else
+                    printf("The node is present at the index %d .",value);
+                display(head);
+                break;
+            }
             default:
             {
-                printf("Invalid choice (choose 0-6)");
+                printf("Invalid choice (choose 0-9)");
             }
             }
         }
