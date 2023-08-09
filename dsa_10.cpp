@@ -236,7 +236,7 @@ int searchValue(ListNode *head,int size, int value)
         temp=temp->next;
         val++;
     }
-    return -1;
+    return 0;
 }
 
 
@@ -369,6 +369,8 @@ int main()
                 value=searchValue(head,sizeoflist,value);
                 if(value==-1)
                     printf("The list is empty\n");
+                else if(value==0)
+                    printf("The node is not present in the list\n");
                 else
                     printf("The node is present at the index %d .",value);
                 display(head);
