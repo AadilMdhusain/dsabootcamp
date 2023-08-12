@@ -188,7 +188,7 @@ int readValue(ListNode *head, int size, int index)
 {
     if(head==NULL)
         return 0;
-    else if(size<index || index<0)
+    else if((size-1)<index || index<0)
         return -1;
         int val=0;
     ListNode *temp=head;
@@ -206,7 +206,7 @@ int writeValue(ListNode *head,int size, int index, int value)
 {
     if(head==NULL)
         return -2;
-    else if(size<index || index<0)
+    else if((size-1)<index || index<0)
         return -1;
     ListNode *temp=head;
     int val=0;
