@@ -1,6 +1,8 @@
-// 010 Linked Lists Insertion
+// 010 Linked Lists
 #include <iostream>
 using namespace std;
+
+int size=0;
 
 struct ListNode
 {
@@ -24,22 +26,13 @@ ListNode *createNode(int value = 0) // create node
 
     return newnode;
 }
-int sizeOf(ListNode *&head)
-{
-    int size = 0;
-    ListNode *temp = head;
-    while (temp != NULL)
-    {
-        temp = temp->next;
-        size = size + 1;
-    }
-    return size;
-}
+
 int insAtBeg(ListNode *&head, int value) // Insert at Beginning
 {
     ListNode *newnode = createNode(value);
     newnode->next = head;
     head = newnode;
+    size++;
     return 1;
 }
 
@@ -50,6 +43,7 @@ int insAtEnd(ListNode *&head, int value) // Insert at End
     if (head == NULL)
     {
         head = newnode;
+        size++;
     }
     else
     {
@@ -59,20 +53,21 @@ int insAtEnd(ListNode *&head, int value) // Insert at End
             temp = temp->next;
         }
         temp->next = newnode;
+        size++;
     }
-    index=sizeOf(head);
+    index=size;
     return index;
 }
 int insAtIndex(ListNode *&head, int value, int index) // Insert at given Index
 {
-    if (index < 0 || sizeOf(head) < index)
+    if (index < 0 || size < index)
     {
         // Invalid Index
         return -1;
     }
     else if (index == 0)
     {
-        insAtBeg(head, value);
+        return insAtBeg(head, value);
     }
     else
     {
@@ -92,9 +87,10 @@ int insAtIndex(ListNode *&head, int value, int index) // Insert at given Index
             }
             newnode->next = temp->next;
             temp->next = newnode;
+            size++;
 
         }
-        place=sizeOf(head);
+        place=size;
         return place;
     }
 }
@@ -117,6 +113,7 @@ int delAtBeg(ListNode *&head) // Deletes the node present in the beginning of th
         return -1;
     }
     head=temp->next;
+    size--;
     return 0;
 
 }
@@ -130,10 +127,11 @@ int delAtEnd(ListNode *&head) //Deletes a node present at the end of the linked 
     if(head->next==NULL)
     {
         head=NULL;
+        size--;
         return 1;
     }
     int val;
-    val=sizeOf(head);
+    val=size-1;
     ListNode *temp= head;
     ListNode *temp1;
     while(temp->next!=NULL)
@@ -142,6 +140,7 @@ int delAtEnd(ListNode *&head) //Deletes a node present at the end of the linked 
       temp=temp->next;
     }
     temp1->next=NULL;
+    size--;
     return val;
 }
 
@@ -153,7 +152,7 @@ int delAtIndex(ListNode *&head, int index) //Deletes a node present at a given i
     }
     else{
         ListNode *temp,*temp1;
-        if (index < 0 || sizeOf(head) < index)
+        if (index < 0 || size < index)
     {
         // Invalid Index
         return 0;
@@ -178,13 +177,14 @@ int delAtIndex(ListNode *&head, int index) //Deletes a node present at a given i
             else{
                 temp1->next=temp->next;
             }
+            size--;
             return val;
         }
 
     }
 }
 
-int readValue(ListNode *head, int size, int index)
+int readValue(ListNode *head, int index)
 {
     if(head==NULL)
         return 0;
@@ -202,7 +202,7 @@ int readValue(ListNode *head, int size, int index)
 
 }
 
-int writeValue(ListNode *head,int size, int index, int value)
+int writeValue(ListNode *head,int index, int value)
 {
     if(head==NULL)
         return -2;
@@ -223,7 +223,7 @@ int writeValue(ListNode *head,int size, int index, int value)
 
 }
 
-int searchValue(ListNode *head,int size, int value)
+int searchValue(ListNode *head, int value)
 {
     if(head==NULL)
         return -1;
@@ -332,8 +332,7 @@ int main()
             {
                 printf("Enter the index of the node you want to read : \n");
                 scanf("%d", &index);
-                sizeoflist=sizeOf(head);
-                value=readValue(head,sizeoflist,index);
+                value=readValue(head,index);
                 if(value==0)
                     printf("The list is empty\n");
                 else if(value==-1)
@@ -347,10 +346,9 @@ int main()
             {
                 printf("Enter the index of the node you want to write a value at: \n");
                 scanf("%d", &index);
-                sizeoflist=sizeOf(head);
                 printf("Enter the value to be written at that index : \n");
                 scanf("%d", &value);
-                value=writeValue(head,sizeoflist,index,value);
+                value=writeValue(head,index,value);
                 if(value==-2)
                     printf("The list is empty\n");
                 else if(value==-1)
@@ -365,8 +363,7 @@ int main()
             {
                 printf("Enter the value you want to search in the list : \n");
                 scanf("%d", &value);
-                sizeoflist=sizeOf(head);
-                value=searchValue(head,sizeoflist,value);
+                value=searchValue(head,value);
                 if(value==-1)
                     printf("The list is empty\n");
                 else if(value==0)
