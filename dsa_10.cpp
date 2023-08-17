@@ -143,7 +143,7 @@ int delAtIndex(ListNode *&head, int index, int &size) // Deletes a node present 
     else
     {
         ListNode *temp, *temp1;
-        if (index < 0 || size < index)
+        if (index < 0 || size <= index)
         {
             // Invalid Index
             return 0;
