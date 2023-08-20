@@ -146,7 +146,7 @@ int delAtIndex(ListNode *&head, int index, int &size) // Deletes a node present 
         if (index < 0 || size <= index)
         {
             // Invalid Index
-            return 0;
+            return -2;
         }
         else
         {
@@ -178,9 +178,9 @@ int delAtIndex(ListNode *&head, int index, int &size) // Deletes a node present 
 int readValue(ListNode *head, int index, int &size)
 {
     if (head == NULL)
-        return 0;
-    else if ((size - 1) < index || index < 0)
         return -1;
+    else if ((size - 1) < index || index < 0)
+        return -2;
     int val = 0;
     ListNode *temp = head;
     while (temp != NULL)
@@ -195,9 +195,9 @@ int readValue(ListNode *head, int index, int &size)
 int writeValue(ListNode *head, int index, int value, int &size)
 {
     if (head == NULL)
-        return -2;
-    else if ((size - 1) < index || index < 0)
         return -1;
+    else if ((size - 1) < index || index < 0)
+        return -2;
     ListNode *temp = head;
     int val = 0;
     while (temp != NULL)
@@ -225,7 +225,7 @@ int searchValue(ListNode *head, int value)
         temp = temp->next;
         val++;
     }
-    return 0;
+    return -2;
 }
 
 int main()
@@ -308,7 +308,7 @@ int main()
                 value = delAtIndex(head, index, size);
                 if (value == -1)
                     printf("The linked list is empty. \n");
-                else if (value == 0)
+                else if (value == -2)
                     printf("The index is invalid. \n");
                 else
                     printf("The node present at the index %d is deleted. ", value);
@@ -320,9 +320,9 @@ int main()
                 printf("Enter the index of the node you want to read : \n");
                 scanf("%d", &index);
                 value = readValue(head, index, size);
-                if (value == 0)
+                if (value == -1)
                     printf("The list is empty\n");
-                else if (value == -1)
+                else if (value == -2)
                     printf("The index is invalid\n");
                 else
                     printf("The data value of the %dth node is : %d\n", index, value);
@@ -336,9 +336,9 @@ int main()
                 printf("Enter the value to be written at that index : \n");
                 scanf("%d", &value);
                 value = writeValue(head, index, value, size);
-                if (value == -2)
+                if (value == -1)
                     printf("The list is empty\n");
-                else if (value == -1)
+                else if (value == -2)
                     printf("The index is invalid\n");
                 else
                     printf("The new value of the %dth node is : %d \n", index, value);
@@ -352,7 +352,7 @@ int main()
                 value = searchValue(head, value);
                 if (value == -1)
                     printf("The list is empty\n");
-                else if (value == 0)
+                else if (value == -2)
                     printf("The node is not present in the list\n");
                 else
                     printf("The node is present at the index %d .", value);
