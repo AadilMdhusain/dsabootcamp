@@ -100,7 +100,7 @@ void display(int arr[], int size)
 
 int main()
 {
-    int choice, size, arr[50], output, input, index;
+    int choice, size=0, arr[50], output, input, index;
     while (1)
     {
         printf("\n\n=============MENU=============\n");
@@ -114,7 +114,7 @@ int main()
             cout << "Enter the value to entered as the input\n";
             cin >> input;
             output = insertatbeg(arr, size, input);
-            if (output == -1)
+            if(output == -1)
                 cout << "The array is full, no more data values can be entered in it";
             else
                 cout << "The data value have been successfully entered at the beginning of the array \n";
@@ -174,12 +174,11 @@ int main()
             break;
         case 0:
             return 0;
-
+            break;
         default:
             cout << "You have inserted an invalid choice, please enter a choice between (0-6) \n";
             break;
         }
     }
 
-    return 0;
 }
