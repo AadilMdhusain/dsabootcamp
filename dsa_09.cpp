@@ -15,7 +15,7 @@ int insertatbeg(int arr[], int &size, int value)
         arr[0] = value;
     }
     size++;
-    return size;
+    return 0;
 }
 
 int insertatend(int arr[], int &size, int value)
@@ -25,7 +25,7 @@ int insertatend(int arr[], int &size, int value)
     else
         arr[size] = value;
     size++;
-    return size;
+    return size-1;
 }
 
 int insertatindex(int arr[], int &size, int value, int index)
@@ -57,7 +57,7 @@ int delatbeg(int arr[], int &size)
             arr[i] = arr[i + 1];
         }
         size--;
-        return size;
+        return 0;
     }
 }
 
@@ -68,7 +68,7 @@ int delatend(int arr[], int &size)
     else
     {
         size--;
-        return size;
+        return size-1;
     }
 }
 
@@ -85,7 +85,7 @@ int delatgivenindex(int arr[], int &size, int index)
             arr[i] = arr[i + 1];
         }
         size--;
-        return size;
+        return index;
     }
 }
 
