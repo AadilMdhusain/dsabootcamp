@@ -25,7 +25,7 @@ int insertatend(int arr[], int &size, int value)
     else
         arr[size] = value;
     size++;
-    return size;
+    return size-1;
 }
 
 int insertatindex(int arr[], int &size, int value, int index)
@@ -72,7 +72,7 @@ int deleteatend(int arr[], int &size)
     }
 }
 
-int deleteatgivenindex(int arr[], int &size, int index)
+int deleteatindex(int arr[], int &size, int index)
 {
     if (size == 0)
         return -1;
@@ -98,7 +98,7 @@ int linearsearch(int arr[], int &size, int value)
         if (arr[i] == value)
             return i;
     }
-    return -2;
+    return -1;
 }
 
 void display(int arr[], int size)
@@ -175,7 +175,7 @@ int main()
         case 6:
             cout << "Enter the index at which has to be deleted\n";
             cin >> index;
-            output = deleteatgivenindex(arr, size, index);
+            output = deleteatindex(arr, size, index);
             if (output == -1)
                 cout << "The array is empty\n";
             else if (output == -2)
@@ -189,16 +189,14 @@ int main()
             cin >> input;
             output = linearsearch(arr, size, input);
             if (output == -1)
-                cout << "The given array is empty\n";
-            else if (output == -2)
-                cout << "The given value is not present in the array\n";
+                cout << "The element couldn't be found\n";
             else
                 cout << "The given value is present at the index " << output << endl;
         case 0:
             return 0;
             break;
         default:
-            cout << "You have inserted an invalid choice, please enter a choice between (0-6) \n";
+            cout << "You have inserted an invalid choice, please enter a choice between (0-7) \n";
             break;
         }
     }
