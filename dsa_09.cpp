@@ -25,7 +25,7 @@ int insertatend(int arr[], int &size, int value)
     else
         arr[size] = value;
     size++;
-    return size-1;
+    return size;
 }
 
 int insertatindex(int arr[], int &size, int value, int index)
@@ -46,7 +46,7 @@ int insertatindex(int arr[], int &size, int value, int index)
     }
 }
 
-int delatbeg(int arr[], int &size)
+int deleteatbeg(int arr[], int &size)
 {
     if (size == 0)
         return -1;
@@ -61,18 +61,18 @@ int delatbeg(int arr[], int &size)
     }
 }
 
-int delatend(int arr[], int &size)
+int deleteatend(int arr[], int &size)
 {
     if (size == 0)
         return -1;
     else
     {
         size--;
-        return size-1;
+        return size;
     }
 }
 
-int delatgivenindex(int arr[], int &size, int index)
+int deleteatgivenindex(int arr[], int &size, int index)
 {
     if (size == 0)
         return -1;
@@ -89,6 +89,18 @@ int delatgivenindex(int arr[], int &size, int index)
     }
 }
 
+int linearsearch(int arr[], int &size, int value)
+{
+    if (size == 0)
+        return -1;
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == value)
+            return i;
+    }
+    return -2;
+}
+
 void display(int arr[], int size)
 {
     cout << "Array: ";
@@ -100,12 +112,12 @@ void display(int arr[], int size)
 
 int main()
 {
-    int choice, size=0, arr[50], output, input, index;
+    int choice, size = 0, arr[50], output, input, index;
     while (1)
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n\t07.search array for a value\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -114,7 +126,7 @@ int main()
             cout << "Enter the value to entered as the input\n";
             cin >> input;
             output = insertatbeg(arr, size, input);
-            if(output == -1)
+            if (output == -1)
                 cout << "The array is full, no more data values can be entered in it";
             else
                 cout << "The data value have been successfully entered at the beginning of the array \n";
@@ -145,7 +157,7 @@ int main()
             display(arr, size);
             break;
         case 4:
-            output = delatbeg(arr, size);
+            output = deleteatbeg(arr, size);
             if (output == -1)
                 cout << "The array is empty\n";
             else
@@ -153,7 +165,7 @@ int main()
             display(arr, size);
             break;
         case 5:
-            output = delatend(arr, size);
+            output = deleteatend(arr, size);
             if (output == -1)
                 cout << "The array is empty\n";
             else
@@ -163,7 +175,7 @@ int main()
         case 6:
             cout << "Enter the index at which has to be deleted\n";
             cin >> index;
-            output = delatgivenindex(arr, size, index);
+            output = deleteatgivenindex(arr, size, index);
             if (output == -1)
                 cout << "The array is empty\n";
             else if (output == -2)
@@ -172,6 +184,16 @@ int main()
                 cout << "The given element has been deleted\n";
             display(arr, size);
             break;
+        case 7:
+            cout << "Enter the value which you want to search in the given array\n";
+            cin >> input;
+            output = linearsearch(arr, size, input);
+            if (output == -1)
+                cout << "The given array is empty\n";
+            else if (output == -2)
+                cout << "The given value is not present in the array\n";
+            else
+                cout << "The given value is present at the index " << output << endl;
         case 0:
             return 0;
             break;
@@ -180,5 +202,4 @@ int main()
             break;
         }
     }
-
 }
