@@ -25,7 +25,7 @@ int insertatend(int arr[], int &size, int value)
     else
         arr[size] = value;
     size++;
-    return size-1;
+    return size - 1;
 }
 
 int insertatindex(int arr[], int &size, int value, int index)
@@ -110,6 +110,34 @@ void display(int arr[], int size)
     }
 }
 
+int rotateLeft(int arr[], int size)
+{
+    if (size == 0)
+        return -1;
+    int first_element;
+    first_element = arr[0];
+    for (int i = 0; i < size - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+    arr[size - 1] = first_element;
+    return 1;
+}
+
+int rotateRight(int arr[], int size)
+{
+    if (size == 0)
+        return -1;
+    int end_element;
+    end_element = arr[size - 1];
+    for (int i = size - 1; i > 0; i--)
+    {
+        arr[i] = arr[i - 1];
+    }
+    arr[0] = end_element;
+    return 1;
+}
+
 int main()
 {
     int choice, size = 0, arr[50], output, input, index;
@@ -117,7 +145,7 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n\t07.search array for a value\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.search array for a value\n08.Perform Left Rotate\n09.Perform Right Rotate\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -192,11 +220,28 @@ int main()
                 cout << "The element couldn't be found\n";
             else
                 cout << "The given value is present at the index " << output << endl;
+            break;
+        case 8:
+            output = rotateLeft(arr, size);
+            if (output == -1)
+                cout << "The array is empty\n";
+            else
+                cout << "The array has been left rotated.\n";
+            display(arr, size);
+            break;
+        case 9:
+            output = rotateRight(arr, size);
+            if (output == -1)
+                cout << "The array is empty\n";
+            else
+                cout << "The array has been right rotated.\n";
+            display(arr, size);
+            break;
         case 0:
             return 0;
             break;
         default:
-            cout << "You have inserted an invalid choice, please enter a choice between (0-7) \n";
+            cout << "You have inserted an invalid choice, please enter a choice between (0-9) \n";
             break;
         }
     }
