@@ -228,6 +228,38 @@ int searchValue(ListNode *head, int value)
     return -2;
 }
 
+int rotateLeft(ListNode *&head)
+{
+    if (head == NULL)
+        return -1;
+    ListNode *temp = head;
+    int first_element = head->data;
+    while (temp->next != NULL)
+    {
+        temp->data = temp->next->data;
+        temp = temp->next;
+    }
+    temp->data = first_element;
+    return 1;
+}
+
+int rotateRight(ListNode *head)
+{
+    if (head == NULL)
+        return -1;
+    ListNode *temp = head;
+    int prev_value = head->data, saved_value;
+    while (temp != NULL)
+    {
+        saved_value = temp->data;
+        temp->data = prev_value;
+        prev_value = saved_value;
+        temp = temp->next;
+    }
+    head->data = prev_value;
+    return 1;
+}
+
 int main()
 {
     int choice, index, value, value1, size = 0;
@@ -236,7 +268,7 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -359,9 +391,29 @@ int main()
                 display(head);
                 break;
             }
+            case 10:
+            {
+                value = rotateLeft(head);
+                if (value == -1)
+                    printf("The list is empty\n");
+                else
+                    printf("The list has been rotated to the left\n");
+                display(head);
+                break;
+            }
+            case 11:
+            {
+                value = rotateRight(head);
+                if (value == -1)
+                    printf("The list is empty\n");
+                else
+                    printf("The list has been rotated to the right\n");
+                display(head);
+                break;
+            }
             default:
             {
-                printf("Invalid choice (choose 0-9)");
+                printf("Invalid choice (choose 0-11)");
             }
             }
         }
