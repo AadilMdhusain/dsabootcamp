@@ -260,6 +260,22 @@ int rotateRight(ListNode *head)
     return 1;
 }
 
+int printReverse(ListNode *head){
+
+    if(head == NULL)
+        return 1;
+    int val;
+    ListNode *temp =head;
+    while(temp!=NULL)
+    {
+       val=temp->data;
+       temp=temp->next;
+       printReverse(temp);
+       cout<<val<<", ";
+       return 1;
+    }
+}
+
 int main()
 {
     int choice, index, value, value1, size = 0;
@@ -268,7 +284,7 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n12.Print the reverse of the linked list\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -411,9 +427,15 @@ int main()
                 display(head);
                 break;
             }
+            case 12:
+            {
+                value = printReverse(head);
+                printf("\nThe list has been printed in reverse.");
+                break;
+            }
             default:
             {
-                printf("Invalid choice (choose 0-11)");
+                printf("Invalid choice (choose 0-12)");
             }
             }
         }
