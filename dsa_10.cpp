@@ -260,19 +260,13 @@ int rotateRight(ListNode *head)
     return 1;
 }
 
-int printReverse(ListNode *head){
+void printReverse(ListNode *head){
 
-    if(head == NULL)
-        return 1;
-    int val;
     ListNode *temp =head;
-    while(temp!=NULL)
+    if(temp!=NULL)
     {
-       val=temp->data;
-       temp=temp->next;
-       printReverse(temp);
-       cout<<val<<", ";
-       return 1;
+       printReverse(temp->next);
+       cout<<temp->data<<", ";
     }
 }
 
@@ -429,7 +423,7 @@ int main()
             }
             case 12:
             {
-                value = printReverse(head);
+                printReverse(head);
                 printf("\nThe list has been printed in reverse.");
                 break;
             }
