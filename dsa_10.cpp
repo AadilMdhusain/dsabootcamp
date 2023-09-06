@@ -260,14 +260,36 @@ int rotateRight(ListNode *head)
     return 1;
 }
 
-void printReverse(ListNode *head){
+void printReverse(ListNode *head)
+{
 
-    ListNode *temp =head;
-    if(temp!=NULL)
+    ListNode *temp = head;
+    if (temp != NULL)
     {
-       printReverse(temp->next);
-       cout<<temp->data<<", ";
+        printReverse(temp->next);
+        cout << temp->data << ", ";
     }
+}
+
+void printSpiral(ListNode *head, int size)
+{
+
+    int *arr = (int *)calloc(size, sizeof(int)), i = 0, s = size - 1;
+    while (head != NULL)
+    {
+        if (s / 2 >= i)
+        {
+            arr[i * 2] = head->data;
+        }
+        else
+        {
+            arr[2 * (s - i) + 1] = head->data;
+        }
+        i++;
+        head = head->next;
+    }
+    for (i = 0; i < size; i++)
+        cout << arr[i] << ",";
 }
 
 int main()
@@ -278,7 +300,7 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n12.Print the reverse of the linked list\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n12.Print the reverse of the linked list\n13.Print the linked list in Spiral fashion\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -427,9 +449,15 @@ int main()
                 printf("\nThe list has been printed in reverse.");
                 break;
             }
+            case 13:
+            {
+                printSpiral(head, size);
+                printf("\nThe list has been printed in spiral fashion.");
+                break;
+            }
             default:
             {
-                printf("Invalid choice (choose 0-12)");
+                printf("Invalid choice (choose 0-13)");
             }
             }
         }
