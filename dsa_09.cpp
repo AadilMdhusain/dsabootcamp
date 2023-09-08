@@ -2,10 +2,12 @@
 
 using namespace std;
 
-int insertatbeg(int arr[], int &size, int value)
+int insertAtBeg(int arr[], int &size, int value)
 {
     if (size == 50)
+    {
         return -1;
+    }
     else
     {
         for (int i = size; i > 0; i--)
@@ -13,27 +15,35 @@ int insertatbeg(int arr[], int &size, int value)
             arr[i] = arr[i - 1];
         }
         arr[0] = value;
+        size++;
+        return 0;
     }
-    size++;
-    return 0;
 }
 
-int insertatend(int arr[], int &size, int value)
+int insertAtEnd(int arr[], int &size, int value)
 {
     if (size == 50)
+    {
         return -1;
+    }
     else
+    {
         arr[size] = value;
-    size++;
-    return size - 1;
+        size++;
+        return size - 1;
+    }
 }
 
-int insertatindex(int arr[], int &size, int value, int index)
+int insertAtIndex(int arr[], int &size, int value, int index)
 {
     if (size == 50)
+    {
         return -1;
-    else if (index < 0 || index > size)
+    }
+    else if (index < 0 || size < index)
+    {
         return -2;
+    }
     else
     {
         for (int i = size; i > index; i--)
@@ -46,25 +56,29 @@ int insertatindex(int arr[], int &size, int value, int index)
     }
 }
 
-int deleteatbeg(int arr[], int &size)
+int deleteAtBeg(int arr[], int &size)
 {
     if (size == 0)
+    {
         return -1;
+    }
     else
     {
-        for (int i = 0; i < size - 1; i++)
+        for (int i = 1; i < size; i++)
         {
-            arr[i] = arr[i + 1];
+            arr[i - 1] = arr[i];
         }
         size--;
         return 0;
     }
 }
 
-int deleteatend(int arr[], int &size)
+int deleteAtEnd(int arr[], int &size)
 {
     if (size == 0)
+    {
         return -1;
+    }
     else
     {
         size--;
@@ -72,27 +86,29 @@ int deleteatend(int arr[], int &size)
     }
 }
 
-int deleteatindex(int arr[], int &size, int index)
+int deleteAtIndex(int arr[], int &size, int index)
 {
     if (size == 0)
+    {
         return -1;
-    else if (index < 0 || index >= size)
+    }
+    else if (index < 0 || size <= index)
+    {
         return -2;
+    }
     else
     {
-        for (int i = index; i < size - 1; i++)
+        for (int i = index + 1; i < size; i++)
         {
-            arr[i] = arr[i + 1];
+            arr[i - 1] = arr[i];
         }
         size--;
         return index;
     }
 }
 
-int linearsearch(int arr[], int &size, int value)
+int linearSearch(int arr[], int &size, int value)
 {
-    if (size == 0)
-        return -1;
     for (int i = 0; i < size; i++)
     {
         if (arr[i] == value)
@@ -101,41 +117,49 @@ int linearsearch(int arr[], int &size, int value)
     return -1;
 }
 
+void rotateLeft(int arr[], int size)
+{
+    if (size > 1)
+    {
+        int first_element = arr[0];
+        for (int i = 0; i < size - 1; i++)
+        {
+            arr[i] = arr[i + 1];
+        }
+        arr[size - 1] = first_element;
+    }
+}
+
+void rotateRight(int arr[], int size)
+{
+    if (size > 1)
+    {
+        int end_element = arr[size - 1];
+        for (int i = size - 1; i > 0; i--)
+        {
+            arr[i] = arr[i - 1];
+        }
+        arr[0] = end_element;
+    }
+}
+
 void display(int arr[], int size)
 {
-    cout << "Array: ";
+    cout << "\nArray: ";
     for (int i = 0; i < size; i++)
     {
         cout << arr[i] << " ";
     }
 }
 
-int rotateLeft(int arr[], int size)
+void reverseDisplay(int arr[], int size)
 {
-    if (size == 0)
-        return -1;
-    int first_element;
-    first_element = arr[0];
-    for (int i = 0; i < size - 1; i++)
+    cout << "\n";
+    for (int i = size; i > 0; i--)
     {
-        arr[i] = arr[i + 1];
+        cout << " " << arr[i - 1];
     }
-    arr[size - 1] = first_element;
-    return 1;
-}
-
-int rotateRight(int arr[], int size)
-{
-    if (size == 0)
-        return -1;
-    int end_element;
-    end_element = arr[size - 1];
-    for (int i = size - 1; i > 0; i--)
-    {
-        arr[i] = arr[i - 1];
-    }
-    arr[0] = end_element;
-    return 1;
+    cout << " : Array";
 }
 
 int main()
@@ -145,104 +169,128 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.search array for a value\n08.Perform Left Rotate\n09.Perform Right Rotate\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given index");
+        printf("\n07.Linear search\n08.Left rotate\n09.Right rotate\n10.Reverse display\n00.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
         {
         case 1:
-            cout << "Enter the value to entered as the input\n";
+        {
+            cout << "Enter the value : ";
             cin >> input;
-            output = insertatbeg(arr, size, input);
+            output = insertAtBeg(arr, size, input);
             if (output == -1)
-                cout << "The array is full, no more data values can be entered in it";
+                cout << "\nOverflow : cannot add more elements";
             else
-                cout << "The data value have been successfully entered at the beginning of the array \n";
+                cout << "\nElement added at index = " << index;
             display(arr, size);
             break;
+        }
         case 2:
-            cout << "Enter the value to entered as the input\n";
+        {
+            cout << "Enter the value : ";
             cin >> input;
-            output = insertatend(arr, size, input);
+            output = insertAtEnd(arr, size, input);
             if (output == -1)
-                cout << "The array is full, no more data values can be entered in it";
+                cout << "\nOverflow : cannot add more elements";
             else
-                cout << "The data value have been successfully entered at the end of the array \n";
+                cout << "\nElement added at index = " << index;
             display(arr, size);
             break;
+        }
         case 3:
-            cout << "Enter the value to entered as the input\n";
+        {
+            cout << "Enter the value : ";
             cin >> input;
-            cout << "Enter the index in which the value is to be placed\n";
+            cout << "Enter the index : ";
             cin >> index;
-            output = insertatindex(arr, size, input, index);
+            output = insertAtIndex(arr, size, input, index);
             if (output == -1)
-                cout << "The array is full, no more data values can be entered in it\n";
+                cout << "\nOverflow : cannot add more elements\n";
             else if (output == -2)
-                cout << "The given index is invalid\n";
+                cout << "\nInvalid Index : valid index to insert [0-" << size << "]";
             else
-                cout << "The data value have been successfully entered at the end of the array \n";
+                cout << "\nElement added at index = " << index;
             display(arr, size);
             break;
+        }
         case 4:
-            output = deleteatbeg(arr, size);
+        {
+            output = deleteAtBeg(arr, size);
             if (output == -1)
-                cout << "The array is empty\n";
+                cout << "\nUnderflow : no elements to delete";
             else
-                cout << "The given element has been deleted\n";
+                cout << "\nElement deleted at index = " << index;
             display(arr, size);
             break;
+        }
         case 5:
-            output = deleteatend(arr, size);
+        {
+            output = deleteAtEnd(arr, size);
             if (output == -1)
-                cout << "The array is empty\n";
+                cout << "\nUnderflow : no elements to delete";
             else
-                cout << "The given element has been deleted\n";
+                cout << "\nElement deleted at index = " << index;
             display(arr, size);
             break;
+        }
         case 6:
+        {
             cout << "Enter the index at which has to be deleted\n";
             cin >> index;
-            output = deleteatindex(arr, size, index);
+            output = deleteAtIndex(arr, size, index);
             if (output == -1)
-                cout << "The array is empty\n";
+                cout << "\nUnderflow : no elements to delete";
             else if (output == -2)
-                cout << "The given index is invalid\n";
+                cout << "\nInvalid Index : valid index to delete [0-" << size - 1 << "]";
             else
-                cout << "The given element has been deleted\n";
+                cout << "\nElement deleted at index = " << index;
             display(arr, size);
             break;
+        }
         case 7:
-            cout << "Enter the value which you want to search in the given array\n";
+        {
+            cout << "Enter the value to be searched : ";
             cin >> input;
-            output = linearsearch(arr, size, input);
+            output = linearSearch(arr, size, input);
             if (output == -1)
-                cout << "The element couldn't be found\n";
+                cout << "\nValue not found";
             else
-                cout << "The given value is present at the index " << output << endl;
+                cout << "\nValue found at index = " << output;
+            display(arr, size);
             break;
+        }
         case 8:
-            output = rotateLeft(arr, size);
-            if (output == -1)
-                cout << "The array is empty\n";
-            else
-                cout << "The array has been left rotated.\n";
+        {
+            rotateLeft(arr, size);
+            cout << "\nArray rotated left";
             display(arr, size);
             break;
+        }
         case 9:
-            output = rotateRight(arr, size);
-            if (output == -1)
-                cout << "The array is empty\n";
-            else
-                cout << "The array has been right rotated.\n";
+        {
+            rotateRight(arr, size);
+            cout << "\nArray rotated right";
             display(arr, size);
             break;
+        }
+        case 10:
+        {
+            cout << "\nArray reverse display";
+            reverseDisplay(arr, size);
+            break;
+        }
         case 0:
+        {
+            cout << "\n===========THE END===========\n ";
             return 0;
-            break;
+        }
         default:
-            cout << "You have inserted an invalid choice, please enter a choice between (0-9) \n";
+        {
+            cout << "\nInvalid Choice : choose [0-10]";
             break;
+        }
         }
     }
 }
