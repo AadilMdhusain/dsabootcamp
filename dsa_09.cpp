@@ -138,6 +138,15 @@ int rotateRight(int arr[], int size)
     return 1;
 }
 
+void printReverse(int arr[], int size)
+{
+    while (size > 0)
+    {
+        cout << arr[size - 1] << " ";
+        size--;
+    }
+}
+
 int main()
 {
     int choice, size = 0, arr[50], output, input, index;
@@ -145,7 +154,7 @@ int main()
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.search array for a value\n08.Perform Left Rotate\n09.Perform Right Rotate\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.search array for a value\n08.Perform Left Rotate\n09.Perform Right Rotate\n10.Print the array in reverse\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
@@ -237,11 +246,15 @@ int main()
                 cout << "The array has been right rotated.\n";
             display(arr, size);
             break;
+        case 10:
+            printReverse(arr, size);
+            cout << "\nThe array has been printed in reverse.";
+            break;
         case 0:
             return 0;
             break;
         default:
-            cout << "You have inserted an invalid choice, please enter a choice between (0-9) \n";
+            cout << "You have inserted an invalid choice, please enter a choice between (0-10) \n";
             break;
         }
     }
