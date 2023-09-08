@@ -1,4 +1,3 @@
-// 010 Linked Lists
 #include <iostream>
 using namespace std;
 
@@ -8,7 +7,7 @@ struct ListNode
     ListNode *next;
 };
 
-ListNode *createNode(int value = 0) // create node
+ListNode *createNode(int value = 0)
 {
     // Using malloc to create/allocate a node in C
     // struct ListNode* newnode = (struct ListNode *)malloc(sizeof(struct ListNode *));
@@ -25,7 +24,7 @@ ListNode *createNode(int value = 0) // create node
     return newnode;
 }
 
-int insAtBeg(ListNode *&head, int value, int &size) // Insert at Beginning
+int insAtBeg(ListNode *&head, int value, int &size)
 {
     ListNode *newnode = createNode(value);
     newnode->next = head;
@@ -34,13 +33,12 @@ int insAtBeg(ListNode *&head, int value, int &size) // Insert at Beginning
     return 0;
 }
 
-int insAtEnd(ListNode *&head, int value, int &size) // Insert at End
+int insAtEnd(ListNode *&head, int value, int &size)
 {
     ListNode *newnode = createNode(value);
     if (head == NULL)
     {
         head = newnode;
-        size++;
     }
     else
     {
@@ -50,16 +48,17 @@ int insAtEnd(ListNode *&head, int value, int &size) // Insert at End
             temp = temp->next;
         }
         temp->next = newnode;
-        size++;
     }
-    return size;
+    size++;
+    return size - 1;
 }
-int insAtIndex(ListNode *&head, int value, int index, int &size) // Insert at given Index
+
+int insAtIndex(ListNode *&head, int value, int index, int &size)
 {
     if (index < 0 || size < index)
     {
         // Invalid Index
-        return -1;
+        return -2;
     }
     else if (index == 0)
     {
@@ -68,73 +67,19 @@ int insAtIndex(ListNode *&head, int value, int index, int &size) // Insert at gi
     else
     {
         ListNode *newnode = createNode(value);
-        if (head == NULL)
+        ListNode *temp = head;
+        for (int i = index; i > 1; i--)
         {
-            head = newnode;
+            temp = temp->next;
         }
-        else
-        {
-            ListNode *temp = head;
-            while (index > 1)
-            {
-                temp = temp->next;
-                index -= 1;
-            }
-            newnode->next = temp->next;
-            temp->next = newnode;
-            size++;
-        }
-        return size;
-    }
-}
-void display(ListNode *head) // Display using List Traversal
-{
-    printf("\nList:");
-    ListNode *temp = head;
-    while (temp != NULL)
-    {
-        printf(" %d", temp->data);
-        temp = temp->next;
+        newnode->next = temp->next;
+        temp->next = newnode;
+        size++;
+        return index;
     }
 }
 
-int delAtBeg(ListNode *&head, int &size) // Deletes the node present in the beginning of the linked list
-{
-    ListNode *temp = head;
-    if (head == NULL)
-    {
-        return -1;
-    }
-    head = temp->next;
-    size--;
-    return 0;
-}
-
-int delAtEnd(ListNode *&head, int &size) // Deletes a node present at the end of the linked list
-{
-    if (head == NULL)
-    {
-        return -1;
-    }
-    if (head->next == NULL)
-    {
-        head = NULL;
-        size--;
-        return size;
-    }
-    ListNode *temp = head;
-    ListNode *temp1;
-    while (temp->next != NULL)
-    {
-        temp1 = temp;
-        temp = temp->next;
-    }
-    temp1->next = NULL;
-    size--;
-    return size;
-}
-
-int delAtIndex(ListNode *&head, int index, int &size) // Deletes a node present at a given index
+int delAtBeg(ListNode *&head, int &size)
 {
     if (head == NULL)
     {
@@ -142,80 +87,115 @@ int delAtIndex(ListNode *&head, int index, int &size) // Deletes a node present 
     }
     else
     {
-        ListNode *temp, *temp1;
-        if (index < 0 || size <= index)
+        ListNode *temp = head;
+        head = temp->next;
+        size--;
+        return 0;
+    }
+}
+
+int delAtEnd(ListNode *&head, int &size)
+{
+    if (head == NULL)
+    {
+        return -1;
+    }
+    else if (head->next == NULL)
+    {
+        head = NULL;
+    }
+    else
+    {
+        ListNode *temp = head;
+        ListNode *temp1;
+        while (temp->next != NULL)
         {
-            // Invalid Index
-            return -2;
+            temp1 = temp;
+            temp = temp->next;
         }
-        else
+        temp1->next = NULL;
+    }
+    size--;
+    return size;
+}
+
+int delAtIndex(ListNode *&head, int index, int &size)
+{
+    if (head == NULL)
+    {
+        return -1;
+    }
+    else if (index < 0 || size <= index)
+    {
+        // Invalid Index
+        return -2;
+    }
+    else if (index == 0)
+    {
+        return delAtBeg(head, size);
+    }
+    else
+    {
+        ListNode *temp = head;
+        for (int t = 1; t < index; t++)
         {
-            int val = 0;
-            temp = head;
-            temp1 = head;
-            while (temp != NULL)
-            {
-                if ((index) == val)
-                    break;
-                temp1 = temp;
-                val++;
-                temp = temp->next;
-            }
-            if (temp == head)
-            {
-                head = head->next;
-            }
-            else
-            {
-                temp1->next = temp->next;
-            }
-            size--;
-            return val;
+            temp = temp->next;
         }
+        temp->next = temp->next->next;
+        size--;
+        return index;
     }
 }
 
 int readValue(ListNode *head, int index, int &size)
 {
     if (head == NULL)
-        return -1;
-    else if ((size - 1) < index || index < 0)
-        return -2;
-    int val = 0;
-    ListNode *temp = head;
-    while (temp != NULL)
     {
-        if (index == val)
-            return temp->data;
-        val++;
-        temp = temp->next;
+        return -1;
     }
+    else
+    {
+        ListNode *temp = head;
+        for (int i = 0; temp != NULL; i++)
+        {
+            if (i == index)
+            {
+                return temp->data;
+            }
+            temp = temp->next;
+        }
+    }
+    return -2;
 }
 
 int writeValue(ListNode *head, int index, int value, int &size)
 {
     if (head == NULL)
-        return -1;
-    else if ((size - 1) < index || index < 0)
-        return -2;
-    ListNode *temp = head;
-    int val = 0;
-    while (temp != NULL)
     {
-        if (index == val)
-        {
-            temp->data = value;
-            return value;
-        }
-        temp = temp->next;
-        val++;
+        return -1;
     }
+    else
+    {
+        ListNode *temp = head;
+        for (int i = 0; temp != NULL; i++)
+        {
+            if (i == index)
+            {
+                temp->data = value;
+                return value;
+            }
+            temp = temp->next;
+        }
+    }
+    return -2;
 }
 
 int searchValue(ListNode *head, int value)
 {
     if (head == NULL)
+    {
         return -1;
+    }
     ListNode *temp = head;
     int val = 0;
     while (temp != NULL)
@@ -228,36 +208,47 @@ int searchValue(ListNode *head, int value)
     return -2;
 }
 
-int rotateLeft(ListNode *&head)
+void rotateLeft(ListNode *&head)
 {
-    if (head == NULL)
-        return -1;
-    ListNode *temp = head;
-    int first_element = head->data;
-    while (temp->next != NULL)
+    if (head != NULL && head->next != NULL)
     {
-        temp->data = temp->next->data;
-        temp = temp->next;
+        ListNode *temp = head;
+        int first_element = head->data;
+        while (temp->next != NULL)
+        {
+            temp->data = temp->next->data;
+            temp = temp->next;
+        }
+        temp->data = first_element;
     }
-    temp->data = first_element;
-    return 1;
 }
 
-int rotateRight(ListNode *head)
+void rotateRight(ListNode *head)
 {
-    if (head == NULL)
-        return -1;
+    if (head != NULL && head->next != NULL)
+    {
+        ListNode *temp = head;
+        int prev_value = head->data, saved_value;
+        while (temp != NULL)
+        {
+            saved_value = temp->data;
+            temp->data = prev_value;
+            prev_value = saved_value;
+            temp = temp->next;
+        }
+        head->data = prev_value;
+    }
+}
+
+void display(ListNode *head)
+{
+    printf("\nList:");
     ListNode *temp = head;
-    int prev_value = head->data, saved_value;
     while (temp != NULL)
     {
-        saved_value = temp->data;
-        temp->data = prev_value;
-        prev_value = saved_value;
+        printf(" %d", temp->data);
         temp = temp->next;
     }
-    head->data = prev_value;
-    return 1;
 }
 
 void printReverse(ListNode *head)
@@ -267,199 +258,199 @@ void printReverse(ListNode *head)
     if (temp != NULL)
     {
         printReverse(temp->next);
-        cout << temp->data << ", ";
+        cout << temp->data << " ";
     }
-}
-
-void printSpiral(ListNode *head, int size)
-{
-
-    int *arr = (int *)calloc(size, sizeof(int)), i = 0, s = size - 1;
-    while (head != NULL)
-    {
-        if (s / 2 >= i)
-        {
-            arr[i * 2] = head->data;
-        }
-        else
-        {
-            arr[2 * (s - i) + 1] = head->data;
-        }
-        i++;
-        head = head->next;
-    }
-    for (i = 0; i < size; i++)
-        cout << arr[i] << ",";
 }
 
 int main()
 {
-    int choice, index, value, value1, size = 0;
+    int choice, index, value, size = 0;
     ListNode *head = NULL;
     while (1)
     {
         printf("\n\n=============MENU=============\n");
 
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n12.Print the reverse of the linked list\n13.Print the linked list in Spiral fashion\n0.Exit\n\n");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n07.Read node in given list\n08.Write node in given list\n09.Search a value in given list\n10.Rotate the linked list to the left\n11.Rotate the linked list to the right\n12.Print the reverse of the linked list\n0.Exit\n\n");
         scanf("%d", &choice);
         printf("\n");
         switch (choice)
         {
+        case 1:
+        {
+            printf("Enter data value: ");
+            scanf("%d", &value);
+            index = insAtBeg(head, value, size);
+            printf("\nA node is inserted at index: %d", index);
+            display(head);
+            break;
+        }
+        case 2:
+        {
+            printf("Enter data value: ");
+            scanf("%d", &value);
+            index = insAtEnd(head, value, size);
+            printf("\nA node is inserted at index: %d", index);
+            display(head);
+            break;
+        }
+        case 3:
+        {
+            printf("Enter data value: ");
+            scanf("%d", &value);
+            printf("Enter index: ");
+            scanf("%d", &index);
+            index = insAtIndex(head, value, index, size);
+            if (index == -2)
             {
-            case 1: // insert at beg
+                printf("\nInvalid index");
+            }
+            else
             {
-                printf("Enter data value: ");
-                scanf("%d", &value);
-                value = insAtBeg(head, value, size);
-                printf("The node is successfully inserted at index: %d", value);
+                printf("\nA node is inserted at index: %d", index);
                 display(head);
-                break;
             }
-            case 2: // insert at end
+            break;
+        }
+        case 4:
+        {
+            index = delAtBeg(head, size);
+            if (index == -1)
             {
-                printf("Enter data value: ");
-                scanf("%d", &value);
-                value = insAtEnd(head, value, size);
-                printf("The node is successfully inserted at index: %d", value);
+                printf("\nThe linked list is empty");
+            }
+            else
+            {
+                printf("\nA node is deleted at index: %d", index);
                 display(head);
-                break;
             }
-            case 3: // insert at index
+            break;
+        }
+        case 5:
+        {
+            index = delAtEnd(head, size);
+            if (index == -1)
             {
-                printf("Enter data value: ");
-                scanf("%d", &value);
-                printf("Enter index: ");
-                scanf("%d", &index);
-                value = insAtIndex(head, value, index, size);
-                if (value == -1)
-                    printf("You have given an invalid index as input.\n");
-                else
-                    printf("The node is successfully inserted at index: %d", index);
+                printf("\nThe linked list is empty");
+            }
+            else
+            {
+                printf("\nA node is deleted at index: %d", index);
                 display(head);
-                break;
             }
-            case 0:
+            break;
+        }
+        case 6:
+        {
+            printf("Enter the index at which : ");
+            scanf("%d", &index);
+            index = delAtIndex(head, index, size);
+            if (index == -1)
             {
-                printf("\n===========THE END===========\n ");
-                return 0;
+                printf("\nThe linked list is empty");
             }
-            case 4:
+            else if (index == -2)
             {
-                printf("The node that is present at the beginning will be deleted.\n");
-                value = delAtBeg(head, size);
-                if (value == -1)
-                    printf("The linked list is empty. \n");
-                else
-                    printf("The node present at the index %d is deleted. ", value);
+                printf("\nInvalid index");
+            }
+            else
+            {
+                printf("\nA node is deleted at index: %d", index);
                 display(head);
-                break;
             }
-            case 5:
+            break;
+        }
+        case 7:
+        {
+            printf("Enter the index of the node you want to read : ");
+            scanf("%d", &index);
+            value = readValue(head, index, size);
+            if (value == -1)
             {
-                printf("The node that is present at the end will be deleted. \n");
-                value = delAtEnd(head, size);
-                if (value == -1)
-                    printf("The linked list is empty. \n");
-                else
-                    printf("The node present at the index %d is deleted. ", value);
+                printf("\nThe list is empty");
+            }
+            else if (value == -2)
+            {
+                printf("\nThe index is invalid");
+            }
+            else
+            {
+                printf("\nThe data value of the %dth node is : %d", index, value);
                 display(head);
-                break;
             }
-            case 6:
+            break;
+        }
+        case 8:
+        {
+            printf("Enter the index of the node you want to write a value at: ");
+            scanf("%d", &index);
+            printf("Enter the value to be written at that index : ");
+            scanf("%d", &value);
+            value = writeValue(head, index, value, size);
+            if (value == -1)
             {
-                printf("Enter the index at which : \n");
-                scanf("%d", &index);
-                value = delAtIndex(head, index, size);
-                if (value == -1)
-                    printf("The linked list is empty. \n");
-                else if (value == -2)
-                    printf("The index is invalid. \n");
-                else
-                    printf("The node present at the index %d is deleted. ", value);
+                printf("\nThe list is empty");
+            }
+            else if (value == -2)
+            {
+                printf("\nThe index is invalid");
+            }
+            else
+            {
+                printf("\nThe new value of the %dth node is : %d", index, value);
                 display(head);
-                break;
             }
-            case 7:
+            break;
+        }
+        case 9:
+        {
+            printf("Enter the value you want to search in the list : \n");
+            scanf("%d", &value);
+            value = searchValue(head, value);
+            if (value == -1)
             {
-                printf("Enter the index of the node you want to read : \n");
-                scanf("%d", &index);
-                value = readValue(head, index, size);
-                if (value == -1)
-                    printf("The list is empty\n");
-                else if (value == -2)
-                    printf("The index is invalid\n");
-                else
-                    printf("The data value of the %dth node is : %d\n", index, value);
+                printf("\nThe list is empty");
+            }
+            else if (value == -2)
+            {
+                printf("\nThe node is not present in the list");
+            }
+            else
+            {
+                printf("\nThe node is present at the index %d", value);
                 display(head);
-                break;
             }
-            case 8:
-            {
-                printf("Enter the index of the node you want to write a value at: \n");
-                scanf("%d", &index);
-                printf("Enter the value to be written at that index : \n");
-                scanf("%d", &value);
-                value = writeValue(head, index, value, size);
-                if (value == -1)
-                    printf("The list is empty\n");
-                else if (value == -2)
-                    printf("The index is invalid\n");
-                else
-                    printf("The new value of the %dth node is : %d \n", index, value);
-                display(head);
-                break;
-            }
-            case 9:
-            {
-                printf("Enter the value you want to search in the list : \n");
-                scanf("%d", &value);
-                value = searchValue(head, value);
-                if (value == -1)
-                    printf("The list is empty\n");
-                else if (value == -2)
-                    printf("The node is not present in the list\n");
-                else
-                    printf("The node is present at the index %d .", value);
-                display(head);
-                break;
-            }
-            case 10:
-            {
-                value = rotateLeft(head);
-                if (value == -1)
-                    printf("The list is empty\n");
-                else
-                    printf("The list has been rotated to the left\n");
-                display(head);
-                break;
-            }
-            case 11:
-            {
-                value = rotateRight(head);
-                if (value == -1)
-                    printf("The list is empty\n");
-                else
-                    printf("The list has been rotated to the right\n");
-                display(head);
-                break;
-            }
-            case 12:
-            {
-                printReverse(head);
-                printf("\nThe list has been printed in reverse.");
-                break;
-            }
-            case 13:
-            {
-                printSpiral(head, size);
-                printf("\nThe list has been printed in spiral fashion.");
-                break;
-            }
-            default:
-            {
-                printf("Invalid choice (choose 0-13)");
-            }
-            }
+            break;
+        }
+        case 10:
+        {
+            rotateLeft(head);
+            printf("The list has been rotated to the left\n");
+            display(head);
+            break;
+        }
+        case 11:
+        {
+            rotateRight(head);
+            printf("The list has been rotated to the right\n");
+            display(head);
+            break;
+        }
+        case 12:
+        {
+            printf("\n");
+            printReverse(head);
+            printf("\nThe list has been printed in reverse.");
+            break;
+        }
+        case 0:
+        {
+            printf("\n===========THE END===========\n ");
+            return 0;
+        }
+        default:
+        {
+            printf("Invalid Choice : choose [0-12]");
+        }
         }
     }
 }
