@@ -28,7 +28,7 @@ int insAtBeg(ListNode *&head, ListNode *&tail, int value, int &size)
 {
     ListNode *newnode = createNode(value);
     newnode->next = head;
-    if(head == NULL)
+    if (head == NULL)
         tail = newnode;
     head = newnode;
     size++;
@@ -45,8 +45,8 @@ int insAtEnd(ListNode *&head, ListNode *&tail, int value, int &size)
     }
     else
     {
-        tail->next=newnode;
-        tail= newnode;
+        tail->next = newnode;
+        tail = newnode;
     }
     size++;
     return size - 1;
@@ -92,8 +92,8 @@ int delAtBeg(ListNode *&head, ListNode *&tail, int &size)
     {
         ListNode *temp = head;
         head = temp->next;
-        if(size == 1)
-        tail = NULL;
+        if (size == 1)
+            tail = NULL;
         size--;
         return 0;
     }
@@ -120,6 +120,7 @@ int delAtEnd(ListNode *&head, ListNode *&tail, int &size)
             temp = temp->next;
         }
         temp1->next = NULL;
+        tail = temp1;
     }
     size--;
     return size;
@@ -147,11 +148,12 @@ int delAtIndex(ListNode *&head, ListNode *&tail, int index, int &size)
             temp = temp->next;
         }
         temp->next = temp->next->next;
+        if (index == size - 1)
+            tail = temp;
         size--;
         return index;
     }
 }
-
 
 void display(ListNode *head)
 {
@@ -164,7 +166,6 @@ void display(ListNode *head)
     }
 }
 
-
 int main()
 {
     int choice, index, value, size = 0;
@@ -172,16 +173,16 @@ int main()
     while (1)
     {
         printf("\n\n=============MENU=============\n");
-        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index");
+        printf("\nInsert at:\n\t01.beginning\n\t02.end\n\t03.given index\nDelete at:\n\t04.beginning\n\t05.end\n\t06.given Index\n0.Exit");
         printf("\n");
-        cin>>choice;
+        cin >> choice;
         switch (choice)
         {
         case 1:
         {
             printf("Enter data value: ");
             scanf("%d", &value);
-            index = insAtBeg(head, tail,value, size);
+            index = insAtBeg(head, tail, value, size);
             printf("\nA node is inserted at index: %d", index);
             display(head);
             break;
@@ -268,7 +269,7 @@ int main()
         }
         default:
         {
-            printf("Invalid Choice : choose [0-12]");
+            printf("Invalid Choice : choose [0-6]");
         }
         }
     }
