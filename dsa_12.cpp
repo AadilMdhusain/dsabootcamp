@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -75,7 +76,7 @@ int Stack::top()
 {
     if(this->size==0)
     {
-        return -1;
+        return INT_MIN;
     }
     return this->head->data;
 }
@@ -126,7 +127,7 @@ int main()
                    s1.display();
                    break;
             case 3:item=s1.top();
-                   if(item==-1)
+                   if(item==INT_MIN)
                    cout<<"The stack is empty.\n";
                    else
                    cout<<"The element at the top of the stack is "<<item<<endl;
