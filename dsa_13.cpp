@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -80,7 +81,7 @@ int Queue::front()
 {
     if(this->size==0)
     {
-        return -1;
+        return INT_MIN;
     }
     return this->tail->data;
 }
@@ -89,7 +90,7 @@ int Queue::back()
 {
     if(this->size==0)
     {
-        return -1;
+        return INT_MIN;
     }
     return this->head->data;
 
@@ -142,13 +143,13 @@ int main()
                    s1.display();
                    break;
             case 3:item=s1.front();
-                   if(item==-1)
+                   if(item==INT_MIN)
                    cout<<"The Queue is empty.\n";
                    else
                    cout<<"The element at the front of the Queue is "<<item<<endl;
                    break;
             case 4:item=s1.back();
-                   if(item==-1)
+                   if(item==INT_MIN)
                     cout<<"The Queue is empty.\n";
                    else
                     cout<<"The element at at the back of the Queue is "<<item<<endl;
